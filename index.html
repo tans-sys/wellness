@@ -25,199 +25,301 @@
   --amber:#BA7517;
   --amber-bg:#FAEEDA;
 }
-html{
-  height:100%;
-  overflow:hidden;
-  background:#fff;
-}
+html{height:100%;overflow:hidden;background:#fff}
 body{
-  height:100%;
-  width:100%;
-  overflow:hidden;
-  background:#fff;
+  height:100%;width:100%;overflow:hidden;background:#fff;
   font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,sans-serif;
   touch-action:none;
 }
 
-/* ── QUIZ SCREEN ── */
-#quiz-screen{
-  position:fixed;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  background:#fff;
-  overflow:hidden;
+/* ══════════════════════════════
+   INTRO SCREEN
+══════════════════════════════ */
+#intro-screen{
+  position:fixed;inset:0;
+  display:flex;flex-direction:column;
+  background:#fff;overflow:hidden;
 }
+.intro-hero{
+  flex:0 0 42%;
+  position:relative;overflow:hidden;
+}
+.intro-hero svg{width:100%;height:100%;display:block}
+.intro-hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom, rgba(4,44,83,0) 50%, #fff 100%);
+}
+.intro-body{
+  flex:1;
+  display:flex;flex-direction:column;
+  padding:0 26px 0;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+.intro-tag{
+  display:inline-block;
+  background:var(--blue-wash);color:var(--blue-mid);
+  font-size:13px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;padding:6px 16px;
+  border-radius:30px;margin-bottom:14px;align-self:flex-start;
+}
+.intro-title{
+  font-size:30px;font-weight:800;
+  color:var(--blue-dark);line-height:1.2;
+  margin-bottom:16px;
+}
+.intro-title span{color:var(--blue-light)}
+.intro-lead{
+  font-size:17px;line-height:1.65;
+  color:var(--blue-mid);margin-bottom:22px;
+}
+.intro-steps{
+  display:flex;flex-direction:column;gap:14px;
+  margin-bottom:26px;
+}
+.intro-step{
+  display:flex;align-items:flex-start;gap:14px;
+  background:var(--blue-wash);
+  border-radius:16px;padding:14px 16px;
+}
+.step-icon{
+  width:44px;height:44px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:22px;
+}
+.step-icon.sleep{background:#FFF3E0}
+.step-icon.swipe{background:#E1F5EE}
+.step-icon.result{background:#EDE7F6}
+.step-text{flex:1}
+.step-title{font-size:17px;font-weight:700;color:var(--blue-dark);margin-bottom:3px}
+.step-desc{font-size:15px;line-height:1.5;color:var(--blue-mid)}
+.intro-note{
+  font-size:14px;line-height:1.6;color:#85B7EB;
+  border-top:1px solid var(--blue-wash);
+  padding-top:16px;margin-bottom:16px;
+  text-align:center;
+}
+.start-btn{
+  width:100%;padding:18px;
+  background:var(--blue-mid);color:#fff;
+  border:none;border-radius:18px;
+  font-size:19px;font-weight:700;cursor:pointer;
+  letter-spacing:.02em;
+  margin-bottom:max(env(safe-area-inset-bottom),20px);
+  flex-shrink:0;
+  transition:opacity .1s;
+}
+.start-btn:active{opacity:.88}
 
-/* TOP BAR */
+/* ══════════════════════════════
+   QUIZ SCREEN
+══════════════════════════════ */
+#quiz-screen{
+  position:fixed;inset:0;
+  display:none;flex-direction:column;
+  background:#fff;overflow:hidden;
+}
 .top-bar{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:env(safe-area-inset-top, 16px) 18px 12px;
-  padding-top:max(env(safe-area-inset-top),14px);
+  display:flex;align-items:center;gap:12px;
+  padding:max(env(safe-area-inset-top),14px) 18px 12px;
   flex-shrink:0;
 }
 .back-btn{
-  width:38px;height:38px;border-radius:50%;
-  border:1.5px solid var(--blue-pale);
-  background:var(--blue-wash);
+  width:40px;height:40px;border-radius:50%;
+  border:1.5px solid var(--blue-pale);background:var(--blue-wash);
   display:flex;align-items:center;justify-content:center;
   cursor:pointer;color:var(--blue-mid);
-  flex-shrink:0;visibility:hidden;
-  transition:transform .12s;
+  flex-shrink:0;visibility:hidden;transition:transform .12s;
 }
 .back-btn.show{visibility:visible}
 .back-btn:active{transform:scale(.92)}
 .prog-wrap{flex:1;display:flex;flex-direction:column;gap:4px}
-.prog-track{height:5px;background:var(--blue-wash);border-radius:10px;overflow:hidden}
+.prog-track{height:6px;background:var(--blue-wash);border-radius:10px;overflow:hidden}
 .prog-fill{height:100%;background:var(--blue-light);border-radius:10px;transition:width .4s cubic-bezier(.4,0,.2,1)}
-.prog-label{font-size:11px;color:var(--blue-mid);font-weight:600;text-align:right;letter-spacing:.04em}
+.prog-label{font-size:13px;color:var(--blue-mid);font-weight:700;text-align:right;letter-spacing:.04em}
 
-/* DECK — fills all remaining space */
 .deck-area{
-  flex:1;
-  position:relative;
-  padding:8px 14px 0;
-  min-height:0;
+  flex:1;position:relative;
+  padding:8px 14px 0;min-height:0;
 }
 .card{
   position:absolute;
   left:14px;right:14px;top:8px;bottom:0;
-  background:#fff;
-  border:1.5px solid var(--blue-pale);
-  border-radius:24px;
-  display:flex;flex-direction:column;
-  overflow:hidden;
-  cursor:grab;
-  touch-action:none;
-  will-change:transform;
-  user-select:none;
+  background:#fff;border:1.5px solid var(--blue-pale);
+  border-radius:24px;display:flex;flex-direction:column;
+  overflow:hidden;cursor:grab;
+  touch-action:none;will-change:transform;user-select:none;
 }
 .card:active{cursor:grabbing}
 .card.s1{transform:scale(.95) translateY(10px);z-index:1;pointer-events:none;border-color:var(--blue-wash)}
 .card.s2{transform:scale(.90) translateY(20px);z-index:0;pointer-events:none;border-color:var(--blue-wash)}
 .card.top{z-index:3;box-shadow:0 6px 28px rgba(4,44,83,.11)}
-
-/* image = 48% of card */
-.card-img{
-  width:100%;
-  flex:0 0 48%;
-  overflow:hidden;
-  border-radius:20px 20px 0 0;
-}
+.card-img{width:100%;flex:0 0 48%;overflow:hidden;border-radius:20px 20px 0 0}
 .card-img svg{width:100%;height:100%;display:block}
-
-/* text body fills rest */
 .card-body{
-  flex:1;
-  display:flex;flex-direction:column;
+  flex:1;display:flex;flex-direction:column;
   align-items:center;justify-content:center;
-  padding:14px 20px 12px;
-  text-align:center;
-  gap:9px;
-  overflow:hidden;
+  padding:16px 22px 14px;text-align:center;gap:10px;overflow:hidden;
 }
-.q-num{font-size:10px;color:var(--blue-light);letter-spacing:.1em;text-transform:uppercase;font-weight:700}
-.q-text{font-size:16px;line-height:1.45;color:var(--blue-dark);font-weight:600}
-.q-quote{font-size:11px;line-height:1.6;color:var(--blue-light);font-style:italic;border-top:1px solid var(--blue-wash);padding-top:9px;width:100%}
-
-/* swipe overlays */
+.q-num{font-size:12px;color:var(--blue-light);letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.q-text{font-size:18px;line-height:1.45;color:var(--blue-dark);font-weight:700}
+.q-quote{font-size:13px;line-height:1.65;color:var(--blue-light);font-style:italic;border-top:1px solid var(--blue-wash);padding-top:10px;width:100%}
 .ov{
   position:absolute;inset:0;border-radius:24px;
   display:flex;align-items:center;justify-content:center;
-  font-size:32px;font-weight:800;
-  opacity:0;pointer-events:none;
-  border:3px solid transparent;
+  font-size:34px;font-weight:900;
+  opacity:0;pointer-events:none;border:3px solid transparent;
   transition:opacity .06s;letter-spacing:.06em;
 }
 .ov-no{color:var(--green-text);border-color:var(--green);background:rgba(29,158,117,.1)}
 .ov-yes{color:var(--red-text);border-color:var(--red);background:rgba(226,75,74,.1)}
 
-/* SWIPE HINT BAR */
 .swipe-hint{
   flex-shrink:0;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:10px 22px calc(max(env(safe-area-inset-bottom),14px) + 10px);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 22px max(env(safe-area-inset-bottom),16px);
   background:#fff;
 }
-.swipe-side{
-  display:flex;align-items:center;gap:6px;
-  font-size:13px;font-weight:700;
-}
+.swipe-side{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700}
 .swipe-side svg{flex-shrink:0}
 .side-no{color:var(--green-text)}
 .side-yes{color:var(--red-text)}
-.swipe-mid{
-  font-size:11px;color:var(--blue-light);
-  text-align:center;line-height:1.4;
-}
+.swipe-mid{font-size:12px;color:var(--blue-light);text-align:center;line-height:1.4}
 
-/* ── RESULT SCREEN ── */
+/* ══════════════════════════════
+   RESULT SCREEN
+══════════════════════════════ */
 #result-screen{
-  position:fixed;inset:0;
-  background:#fff;
-  display:none;
-  flex-direction:column;
-  align-items:center;
-  overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
-  padding:max(env(safe-area-inset-top),28px) 20px max(env(safe-area-inset-bottom),24px);
-  gap:14px;
+  position:fixed;inset:0;background:#fff;
+  display:none;flex-direction:column;align-items:center;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:max(env(safe-area-inset-top),28px) 22px max(env(safe-area-inset-bottom),24px);
+  gap:16px;
 }
 .score-ring{
-  width:120px;height:120px;border-radius:50%;
+  width:130px;height:130px;border-radius:50%;
   display:flex;flex-direction:column;
   align-items:center;justify-content:center;
   border:4px solid;flex-shrink:0;margin-top:8px;
 }
-.score-n{font-size:40px;font-weight:700;line-height:1}
-.score-of{font-size:13px;color:var(--blue-mid);margin-top:3px;font-weight:500}
-.band-pill{font-size:12px;padding:5px 18px;border-radius:20px;display:inline-block;font-weight:600}
-.band-name{font-size:22px;font-weight:700;color:var(--blue-dark);text-align:center}
-.band-desc{font-size:14px;color:var(--blue-mid);line-height:1.65;max-width:310px;text-align:center}
+.score-n{font-size:44px;font-weight:800;line-height:1}
+.score-of{font-size:14px;color:var(--blue-mid);margin-top:3px;font-weight:600}
+.band-pill{font-size:13px;padding:6px 20px;border-radius:20px;display:inline-block;font-weight:700}
+.band-name{font-size:24px;font-weight:800;color:var(--blue-dark);text-align:center}
+.band-desc{font-size:16px;color:var(--blue-mid);line-height:1.65;max-width:310px;text-align:center}
 .divider{width:100%;height:1px;background:var(--blue-wash)}
-.answers-list{
-  width:100%;
-  border:1.5px solid var(--blue-pale);
-  border-radius:16px;overflow:hidden;
-}
-.a-row{
-  display:flex;align-items:flex-start;
-  padding:10px 14px;gap:10px;
-  border-bottom:1px solid var(--blue-wash);
-  font-size:13px;
-}
-.a-row:last-child{border-bottom:none}
-.a-row:nth-child(even){background:var(--blue-wash)}
-.a-num{color:var(--blue-light);font-weight:600;min-width:20px;flex-shrink:0;padding-top:1px}
-.a-q{flex:1;color:var(--blue-dark);line-height:1.4}
-.a-ans{font-weight:700;flex-shrink:0;font-size:12px;padding-top:2px}
-.a-yes{color:var(--red-text)}
-.a-no{color:var(--green-text)}
 .res-actions{display:flex;flex-direction:column;gap:12px;width:100%}
 .wa-btn{
   display:flex;align-items:center;justify-content:center;gap:10px;
-  padding:17px;background:#25D366;color:#fff;
-  border:none;border-radius:16px;
-  font-size:16px;font-weight:700;cursor:pointer;
-  width:100%;text-decoration:none;
+  padding:18px;background:#25D366;color:#fff;
+  border:none;border-radius:16px;font-size:17px;font-weight:700;
+  cursor:pointer;width:100%;text-decoration:none;
 }
 .wa-btn:active{opacity:.88}
 .again-btn{
-  padding:15px;background:var(--blue-wash);color:var(--blue-mid);
+  padding:16px;background:var(--blue-wash);color:var(--blue-mid);
   border:1.5px solid var(--blue-pale);border-radius:16px;
-  font-size:15px;cursor:pointer;width:100%;font-weight:600;
+  font-size:16px;cursor:pointer;width:100%;font-weight:600;
 }
 .again-btn:active{background:var(--blue-pale)}
-.disc{font-size:11px;color:#9DC3E8;line-height:1.6;text-align:center;max-width:300px}
+.res-disc{font-size:13px;color:#9DC3E8;line-height:1.6;text-align:center;max-width:300px}
 </style>
 </head>
 <body>
 
-<!-- QUIZ -->
+<!-- ══ INTRO SCREEN ══ -->
+<div id="intro-screen">
+
+  <div class="intro-hero">
+    <svg viewBox="0 0 390 280" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#89CFF0"/>
+          <stop offset="55%" stop-color="#B5D4F4"/>
+          <stop offset="100%" stop-color="#E6F1FB"/>
+        </linearGradient>
+        <linearGradient id="sun-glow" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#FFE066"/>
+          <stop offset="100%" stop-color="#FFD700"/>
+        </linearGradient>
+      </defs>
+      <rect width="390" height="280" fill="url(#sky)"/>
+      <!-- clouds -->
+      <ellipse cx="60"  cy="70"  rx="55" ry="22" fill="#fff" opacity=".8"/>
+      <ellipse cx="35"  cy="80"  rx="32" ry="15" fill="#fff" opacity=".7"/>
+      <ellipse cx="85"  cy="82"  rx="28" ry="14" fill="#E8F4FD" opacity=".8"/>
+      <ellipse cx="310" cy="55"  rx="60" ry="24" fill="#fff" opacity=".8"/>
+      <ellipse cx="285" cy="66"  rx="35" ry="16" fill="#fff" opacity=".7"/>
+      <ellipse cx="340" cy="68"  rx="28" ry="14" fill="#E8F4FD" opacity=".8"/>
+      <ellipse cx="180" cy="42"  rx="40" ry="16" fill="#fff" opacity=".5"/>
+      <!-- sun -->
+      <circle cx="195" cy="130" r="50" fill="#FFE066" opacity=".25"/>
+      <circle cx="195" cy="130" r="38" fill="#FFE066" opacity=".45"/>
+      <circle cx="195" cy="130" r="26" fill="url(#sun-glow)"/>
+      <!-- sun rays -->
+      <line x1="195" y1="94"  x2="195" y2="84"  stroke="#FFE066" stroke-width="3" stroke-linecap="round"/>
+      <line x1="195" y1="166" x2="195" y2="176" stroke="#FFE066" stroke-width="3" stroke-linecap="round"/>
+      <line x1="159" y1="130" x2="149" y2="130" stroke="#FFE066" stroke-width="3" stroke-linecap="round"/>
+      <line x1="231" y1="130" x2="241" y2="130" stroke="#FFE066" stroke-width="3" stroke-linecap="round"/>
+      <line x1="170" y1="105" x2="163" y2="98"  stroke="#FFE066" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="220" y1="155" x2="227" y2="162" stroke="#FFE066" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="220" y1="105" x2="227" y2="98"  stroke="#FFE066" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="170" y1="155" x2="163" y2="162" stroke="#FFE066" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- green ground -->
+      <path d="M0 220 Q98 195 195 210 Q292 225 390 200 L390 280 L0 280Z" fill="#7EC8A4" opacity=".7"/>
+      <path d="M0 245 Q98 225 195 238 Q292 252 390 230 L390 280 L0 280Z" fill="#4CAF8A" opacity=".8"/>
+      <path d="M0 265 Q98 252 195 262 Q292 272 390 255 L390 280 L0 280Z" fill="#2E7D52"/>
+      <!-- little trees -->
+      <line x1="80"  y1="248" x2="80"  y2="220" stroke="#2E7D52" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="80"  cy="212" rx="16" ry="14" fill="#388E68"/>
+      <ellipse cx="80"  cy="206" rx="11" ry="10" fill="#4CAF8A"/>
+      <line x1="310" y1="242" x2="310" y2="215" stroke="#2E7D52" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="310" cy="207" rx="18" ry="15" fill="#388E68"/>
+      <ellipse cx="310" cy="200" rx="13" ry="11" fill="#4CAF8A"/>
+      <!-- birds -->
+      <path d="M130 75 Q136 70 142 75" stroke="#185FA5" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M255 85 Q261 80 267 85" stroke="#185FA5" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M148 95 Q152 91 156 95" stroke="#185FA5" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div class="intro-hero-overlay"></div>
+  </div>
+
+  <div class="intro-body">
+    <div class="intro-tag">2-minute check-in</div>
+    <div class="intro-title">How is your<br><span>brain doing</span> today?</div>
+    <div class="intro-lead">Mental wellbeing affects everything — how you sleep, focus, relate to others, and show up each day. This quick check-in helps you notice what's going on inside.</div>
+
+    <div class="intro-steps">
+      <div class="intro-step">
+        <div class="step-icon sleep">🧠</div>
+        <div class="step-text">
+          <div class="step-title">15 simple questions</div>
+          <div class="step-desc">Each one asks about how you've been feeling lately — honestly and without judgement.</div>
+        </div>
+      </div>
+      <div class="intro-step">
+        <div class="step-icon swipe">👆</div>
+        <div class="step-text">
+          <div class="step-title">Swipe to answer</div>
+          <div class="step-desc">Swipe <strong style="color:var(--red-text)">right for Yes</strong> and <strong style="color:var(--green-text)">left for No</strong>. You can also tap the left or right side of the card.</div>
+        </div>
+      </div>
+      <div class="intro-step">
+        <div class="step-icon result">📋</div>
+        <div class="step-text">
+          <div class="step-title">Get your result</div>
+          <div class="step-desc">Your personalised report downloads instantly and can be shared directly on WhatsApp.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="intro-note">This is a personal reflection tool, not a medical assessment. Your answers are private and never stored.</div>
+
+    <button class="start-btn" onclick="startQuiz()">Start my check-in →</button>
+  </div>
+</div>
+
+<!-- ══ QUIZ SCREEN ══ -->
 <div id="quiz-screen">
   <div class="top-bar">
     <button class="back-btn" id="back-btn" onclick="goBack()" aria-label="Previous">
@@ -247,17 +349,17 @@ body{
   <div class="swipe-hint">
     <div class="swipe-side side-no">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      Swipe left for No
+      No
     </div>
-    <div class="swipe-mid">or tap<br>card side</div>
+    <div class="swipe-mid">swipe the card<br>or tap a side</div>
     <div class="swipe-side side-yes">
-      Swipe right for Yes
+      Yes
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </div>
   </div>
 </div>
 
-<!-- RESULT -->
+<!-- ══ RESULT SCREEN ══ -->
 <div id="result-screen">
   <div class="score-ring" id="sring">
     <span class="score-n" id="snum"></span>
@@ -267,16 +369,18 @@ body{
   <div class="band-name"  id="bname"></div>
   <div class="band-desc"  id="bdesc"></div>
   <div class="divider"></div>
-  <div class="answers-list" id="answers-list"></div>
-  <div class="divider"></div>
   <div class="res-actions">
-    <a class="wa-btn" id="wa" href="#" target="_blank">
+    <a class="wa-btn" id="wa1" href="#" target="_blank">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Share on WhatsApp
+      Share to +65 8972 1048
+    </a>
+    <a class="wa-btn" id="wa2" href="#" target="_blank">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Share to +65 9615 5397
     </a>
     <button class="again-btn" onclick="retake()">Start over</button>
   </div>
-  <div class="disc">A personal reflection tool — not a medical or diagnostic assessment. If anything concerns you, speak with a qualified professional.</div>
+  <div class="res-disc">A personal reflection tool — not a medical or diagnostic assessment. If anything concerns you, speak with a qualified professional.</div>
 </div>
 
 <script>
@@ -304,7 +408,7 @@ img:`<svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg"><defs><linear
 {t:"I find it hard to feel motivated to complete tasks.",q:"Progress, not perfection, is the goal. Each small step is an act of courage.",
 img:`<svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g10" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F5F5F5"/><stop offset="100%" stop-color="#E0E0E0"/></linearGradient></defs><rect width="360" height="200" fill="url(#g10)"/><rect x="0" y="165" width="360" height="35" fill="#BDBDBD" opacity=".5"/><rect x="0" y="180" width="360" height="20" fill="#9E9E9E" opacity=".5"/><rect x="48" y="120" width="48" height="48" rx="5" fill="#EF9A9A" opacity=".7"/><rect x="140" y="132" width="48" height="36" rx="5" fill="#FFCC80" opacity=".7"/><rect x="232" y="144" width="48" height="24" rx="5" fill="#A5D6A7" opacity=".7"/><circle cx="72" cy="112" r="9" fill="#BDBDBD" opacity=".8"/><circle cx="164" cy="124" r="9" fill="#BDBDBD" opacity=".8"/><circle cx="256" cy="136" r="9" fill="#BDBDBD" opacity=".8"/><path d="M72 112 Q118 118 164 124 Q210 130 256 136" stroke="#BDBDBD" stroke-width="2.5" fill="none" stroke-dasharray="5 3"/><ellipse cx="55" cy="55" rx="36" ry="14" fill="#FFD700" opacity=".35"/><ellipse cx="300" cy="48" rx="44" ry="16" fill="#B5EAD7" opacity=".45"/><text x="180" y="82" text-anchor="middle" font-size="34" fill="#BDBDBD" opacity=".45" font-family="sans-serif">...</text></svg>`},
 {t:"I put off important things (procrastinate).",q:"Beginning is the hardest step. Once you start, the path reveals itself.",
-img:`<svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g11" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFF7ED"/><stop offset="100%" stop-color="#FEF3C7"/></linearGradient></defs><rect width="360" height="200" fill="url(#g11)"/><path d="M0 160 Q90 138 180 154 Q270 170 360 148 L360 200 L0 200Z" fill="#A7C4BC" opacity=".5"/><path d="M0 180 Q90 162 180 176 Q270 190 360 172 L360 200 L0 200Z" fill="#7AADA4" opacity=".6"/><circle cx="180" cy="92" r="55" fill="none" stroke="#FFB347" stroke-width="11" opacity=".28"/><circle cx="180" cy="92" r="55" fill="none" stroke="#E0E0E0" stroke-width="6" stroke-dasharray="130 215" stroke-dashoffset="-50" opacity=".6"/><line x1="180" y1="92" x2="180" y2="50" stroke="#9B59B6" stroke-width="4" stroke-linecap="round"/><line x1="180" y1="92" x2="214" y2="112" stroke="#FF6B6B" stroke-width="4" stroke-linecap="round"/><circle cx="180" cy="92" r="7" fill="#4F46E5"/><circle cx="180" cy="37" r="4" fill="#9B59B6"/><circle cx="230" cy="63" r="3.5" fill="#FFB347" opacity=".8"/><circle cx="235" cy="92" r="3.5" fill="#FFB347" opacity=".8"/><circle cx="130" cy="63" r="3.5" fill="#FFB347" opacity=".8"/><circle cx="125" cy="92" r="3.5" fill="#FFB347" opacity=".8"/><text x="180" y="185" text-anchor="middle" font-size="12" fill="#7AADA4" font-family="sans-serif" opacity=".8">later...</text></svg>`},
+img:`<svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g11" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFF7ED"/><stop offset="100%" stop-color="#FEF3C7"/></linearGradient></defs><rect width="360" height="200" fill="url(#g11)"/><path d="M0 160 Q90 138 180 154 Q270 170 360 148 L360 200 L0 200Z" fill="#A7C4BC" opacity=".5"/><path d="M0 180 Q90 162 180 176 Q270 190 360 172 L360 200 L0 200Z" fill="#7AADA4" opacity=".6"/><circle cx="180" cy="92" r="55" fill="none" stroke="#FFB347" stroke-width="11" opacity=".28"/><circle cx="180" cy="92" r="55" fill="none" stroke="#E0E0E0" stroke-width="6" stroke-dasharray="130 215" stroke-dashoffset="-50" opacity=".6"/><line x1="180" y1="92" x2="180" y2="50" stroke="#9B59B6" stroke-width="4" stroke-linecap="round"/><line x1="180" y1="92" x2="214" y2="112" stroke="#FF6B6B" stroke-width="4" stroke-linecap="round"/><circle cx="180" cy="92" r="7" fill="#4F46E5"/><circle cx="230" cy="63" r="3.5" fill="#FFB347" opacity=".8"/><circle cx="235" cy="92" r="3.5" fill="#FFB347" opacity=".8"/><circle cx="130" cy="63" r="3.5" fill="#FFB347" opacity=".8"/><circle cx="125" cy="92" r="3.5" fill="#FFB347" opacity=".8"/><text x="180" y="185" text-anchor="middle" font-size="12" fill="#7AADA4" font-family="sans-serif" opacity=".8">later...</text></svg>`},
 {t:"I feel out of control with my eating habits.",q:"Nourishment is an act of self-respect. Eating well is how you honour your body.",
 img:`<svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g12" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFF8E1"/><stop offset="100%" stop-color="#FFF3E0"/></linearGradient></defs><rect width="360" height="200" fill="url(#g12)"/><rect x="0" y="168" width="360" height="32" fill="#FFCC80" opacity=".5"/><circle cx="180" cy="100" r="65" fill="#fff" opacity=".85"/><circle cx="180" cy="100" r="65" fill="none" stroke="#FFB347" stroke-width="2.5"/><ellipse cx="162" cy="84" rx="24" ry="30" fill="#FFCC80" opacity=".6"/><ellipse cx="198" cy="90" rx="20" ry="24" fill="#FFB347" opacity=".5"/><ellipse cx="175" cy="118" rx="27" ry="13" fill="#FFF176" opacity=".8"/><circle cx="155" cy="73" r="9" fill="#FF8A65" opacity=".8"/><circle cx="143" cy="85" r="6" fill="#FF7043" opacity=".7"/><circle cx="202" cy="76" r="8" fill="#FF8A65" opacity=".7"/><path d="M162 126 Q180 138 198 126" stroke="#FFB347" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="65" cy="72" r="20" fill="#FFD700" opacity=".5"/><circle cx="292" cy="62" r="22" fill="#FFAB40" opacity=".5"/></svg>`},
 {t:"I rely on food, alcohol or distractions to cope with stress.",q:"You deserve real comfort. Healing begins when you meet yourself with kindness, not escape.",
@@ -312,6 +416,12 @@ img:`<svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg"><defs><linear
 {t:"I find it hard to feel optimistic about the future.",q:"The horizon is always there, even on cloudy days. Your future is still being written.",
 img:`<svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g14" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#607D8B"/><stop offset="55%" stop-color="#90A4AE"/><stop offset="100%" stop-color="#4CAF8A"/></linearGradient></defs><rect width="360" height="200" fill="url(#g14)"/><ellipse cx="70" cy="58" rx="55" ry="24" fill="#B0BEC5" opacity=".8"/><ellipse cx="50" cy="70" rx="32" ry="16" fill="#CFD8DC" opacity=".8"/><ellipse cx="290" cy="45" rx="60" ry="22" fill="#B0BEC5" opacity=".8"/><ellipse cx="315" cy="58" rx="35" ry="15" fill="#CFD8DC" opacity=".8"/><circle cx="180" cy="80" r="46" fill="#FFE066" opacity=".14"/><circle cx="180" cy="80" r="36" fill="#FFD700" opacity=".2"/><circle cx="180" cy="80" r="25" fill="#FFD700" opacity=".3"/><path d="M0 130 Q90 110 180 125 Q270 140 360 120 L360 200 L0 200Z" fill="#4CAF8A" opacity=".5"/><path d="M0 155 Q90 136 180 150 Q270 165 360 145 L360 200 L0 200Z" fill="#388E68" opacity=".6"/><path d="M0 175 Q90 158 180 172 Q270 186 360 168 L360 200 L0 200Z" fill="#2E7D52"/></svg>`},
 ];
+
+function startQuiz(){
+  document.getElementById('intro-screen').style.display='none';
+  document.getElementById('quiz-screen').style.display='flex';
+  render();
+}
 
 let cur=0,answers=[],dragging=false,sx=0,dx=0;
 
@@ -337,7 +447,7 @@ function resetCard(){
 }
 function animSwipe(dir,cb){
   const c=document.getElementById('c0');
-  const tx=dir==='left'?-500:500, rot=dir==='left'?-22:22;
+  const tx=dir==='left'?-500:500,rot=dir==='left'?-22:22;
   c.style.transition='transform .32s cubic-bezier(.4,0,.2,1),opacity .28s';
   c.style.transform='translateX('+tx+'px) rotate('+rot+'deg)';
   c.style.opacity='0';
@@ -350,12 +460,11 @@ function vote(v){
 }
 function goBack(){if(cur<=0)return;cur--;answers.pop();render();}
 
-// tap left/right half of card
+// tap left / right half
 document.getElementById('c0').addEventListener('click',e=>{
-  if(Math.abs(dx)>5)return; // was a swipe, not a tap
+  if(Math.abs(dx)>5)return;
   const rect=e.currentTarget.getBoundingClientRect();
-  const mid=rect.left+rect.width/2;
-  vote(e.clientX<mid?0:1);
+  vote(e.clientX<rect.left+rect.width/2?0:1);
 });
 
 // drag / swipe
@@ -403,15 +512,23 @@ function showResult(){
   const pill=document.getElementById('bpill');pill.textContent=b.range;pill.style.background=b.bg;pill.style.color=b.color;
   document.getElementById('bname').textContent=b.name;
   document.getElementById('bdesc').textContent=b.desc;
-  const al=document.getElementById('answers-list');al.innerHTML='';
-  answers.forEach((a,i)=>{
-    const row=document.createElement('div');row.className='a-row';
-    const y=a.vote===1;
-    row.innerHTML='<span class="a-num">'+(i+1)+'</span><span class="a-q">'+a.q+'</span><span class="a-ans '+(y?'a-yes':'a-no')+'">'+(y?'Yes':'No')+'</span>';
-    al.appendChild(row);
-  });
   buildPDF(total,b);
-  document.getElementById('wa').href='https://wa.me/6589721049?text='+encodeURIComponent('My Brain Health Check-In\n\nSymptoms flagged: '+total+' / 15\n'+b.name+'\n\n'+b.desc+'\n\n(Brain Health Check-In)');
+  const yesItems=answers.filter(a=>a.vote===1);
+  const yesLines=yesItems.length>0
+    ? yesItems.map((a,i)=>'  '+(i+1)+'. '+a.q).join('\n')
+    : '  None flagged.';
+  const msg=encodeURIComponent(
+    'Brain Health Check-In\n'
+    +'Date: '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+'\n\n'
+    +'Result: '+b.name+'\n'
+    +'Symptoms flagged: '+total+' / 15\n\n'
+    +b.desc+'\n\n'
+    +'--- Symptoms reported (Yes answers) ---\n'
+    +yesLines+'\n\n'
+    +'(Brain Health Check-In — personal reflection tool, not a medical assessment)'
+  );
+  document.getElementById('wa1').href='https://wa.me/6589721048?text='+msg;
+  document.getElementById('wa2').href='https://wa.me/6596155397?text='+msg;
 }
 
 function buildPDF(total,b){
@@ -462,10 +579,8 @@ function buildPDF(total,b){
 function retake(){
   cur=0;answers=[];
   document.getElementById('result-screen').style.display='none';
-  document.getElementById('quiz-screen').style.display='flex';
-  render();
+  document.getElementById('intro-screen').style.display='flex';
 }
-render();
 </script>
 </body>
 </html>
